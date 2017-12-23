@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>博客详情</title>
+    </head>
+    <body data-id="{{blog_id}}">
+        <h1>你好 gua</h1>
+        <img src="images/doge.gif" alt="">
+        <div>
+            <h1>博客详情</h1>
+        </div>
+        <script>
+            var log = console.log.bind(console)
+
+            var ajax = function(request) {
+                /*
+                request 是一个 object，有如下属性
+                    method，请求的方法，string
+                    url，请求的路径，string
+                    data，请求发送的数据，如果是 GET 方法则没有这个值，string
+                    callback，响应回调，function
+                */
+                var r = new XMLHttpRequest()
+                r.open(request.method, request.url, true)
+                if (request.contentType != undefined) {
+                    r.setRequestHeader('Content-Type', request.contentType)
+                }
+                r.onreadystatechange = function() {
+                    if (r.readyState == 4) {
+                        request.callback(r.response)
+                    }
+                }
+                if (request.method == 'GET') {
+                    r.send()
+                } else {
+                    r.send(request.data)
+                }
+            }
+
+            var blogAll = function() {
+                var request = {
+                    method: 'GET',
+                    url: '/api/blog/all',
+                    contentType: 'application/json',
+                    callback: function(response) {
+                        console.log('响应', response)
+                        var res = JSON.parse(response)
+                        if (res.success) {
+                            // window.location.href = '/'
+                        } else {
+                            // alert('登录失败')
+                        }
+                    }
+                }
+                ajax(request)
+            }
+
+            var blogNew = function() {
+                var form = {
+                    title: "测试标题",
+                    author: "gua",
+                    content: "测试内容",
+                }
+                var data = JSON.stringify(form)
+                var request = {
+                    method: 'POST',
+                    url: '/api/blog/add',
+                    data: data,
+                    contentType: 'application/json',
+                    callback: function(response) {
+                        console.log('响应', response)
+                        var res = JSON.parse(response)
+                        if (res.success) {
+                            // window.location.href = '/'
+                        } else {
+                            // alert('登录失败')
+                        }
+                    }
+                }
+                ajax(request)
+            }
+
+            var blogOne = function(id) {
+                var request = {
+                    method: 'GET',
+                    url: '/api/blog/' + id,
+                    contentType: 'application/json',
+                    callback: function(response) {
+                        //
+                        var b = JSON.parse(response)
+                        log('博客详细数据', b)
+                    }
+                }
+                ajax(request)
+            }
+
+            var __main = function() {
+                var id = document.body.dataset.id
+                blogOne(id)
+            }
+
+            __main()
+        </script>
+    </body>
+</html>
