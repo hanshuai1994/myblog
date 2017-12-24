@@ -3,15 +3,41 @@
     <head>
         <meta charset="utf-8">
         <title>博客详情</title>
+        <style>
+            body {
+                background: #f3f3f3;
+            }
+
+            article {
+                padding: 10px;
+                width: 600px;
+                margin: 0 auto;
+                background: #fff;
+            }
+
+            article>div {
+                margin: 10px 0;
+            }
+        </style>
     </head>
     <body data-id="{{blog_id}}">
-        <h1>你好 gua</h1>
-        <img src="images/doge.gif" alt="">
-        <div>
+        <div class="blog_detail">
             <h1>博客详情</h1>
         </div>
         <script>
             var log = console.log.bind(console)
+
+            // 简化 document.querySelector 的函数
+            var e = function(selector) {
+                var element = document.querySelector(selector)
+                if (element == null) {
+                    var s = `元素没找到, 选择器 ${selector} 没有找到或者 js 没有放在 body 里`
+                    alert(s)
+                    return false
+                } else {
+                    return element
+                }
+            }
 
             var ajax = function(request) {
                 /*
@@ -89,7 +115,16 @@
                     callback: function(response) {
                         //
                         var b = JSON.parse(response)
+                        var blog_detail = e('.blog_detail')
+                        var data = `
+                            <article>
+                                <div>${b.author} ${b.created_time}</div>
+                                <h3>${b.title}</h3>
+                                <div>${b.content}</div>
+                            </article>
+                        `
                         log('博客详细数据', b)
+                        blog_detail.insertAdjacentHTML('beforeend', data)
                     }
                 }
                 ajax(request)

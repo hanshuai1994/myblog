@@ -56,7 +56,7 @@ var templateBlog = function(blog) {
 
 var insertBlogAll = function(blogs) {
     var html = ''
-    for (var i = 0; i < blogs.length; i++) {
+    for (var i = blogs.length - 1; i >= 0 ; i--) {
         var b = blogs[i]
         var t = templateBlog(b)
         html += t
@@ -82,11 +82,6 @@ var blogAll = function() {
 }
 
 var blogNew = function(form) {
-    // var form = {
-    //     title: "测试标题",
-    //     author: "gua",
-    //     content: "测试内容",
-    // }
     var data = JSON.stringify(form)
     var request = {
         method: 'POST',
@@ -97,6 +92,9 @@ var blogNew = function(form) {
             // 不考虑错误情况（断网、服务器返回错误等等）
             console.log('响应', response)
             var res = JSON.parse(response)
+            var blog = templateBlog(res)
+            var div = document.querySelector('.gua-blogs')
+            div.insertAdjacentHTML('afterBegin', blog)
         }
     }
     ajax(request)
@@ -151,7 +149,7 @@ var bindEvents = function() {
             title: e('#id-input-title').value,
             author: e('#id-input-author').value,
             content: e('#id-input-content').value,
-            mima: e('#id-input-mima').value,
+            // mima: e('#id-input-mima').value,
         }
         // 用这个数据调用 blogNew 来创建一篇新博客
         blogNew(form)
