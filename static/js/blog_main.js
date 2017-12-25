@@ -38,16 +38,9 @@ var templateBlog = function(blog) {
                     ${title}
                 </a>
             </div>
-            <div class="">
-                <span>${author}</span> @ <time>${time}</time>
-            </div>
-            <div class="blog-comments">
-                <div class="new-comment">
-                    <input class="comment-blog-id" type=hidden value="${id}">
-                    <input class="comment-author" value="">
-                    <input class="comment-content" value="">
-                    <button class="comment-add">添加评论</button>
-                </div>
+            <div class="info">
+                 <time>${time}</time>
+                 <span class="author">@${author}</span>
             </div>
         </div>
     `
