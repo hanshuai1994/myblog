@@ -62,6 +62,10 @@ time {
     margin-right: 20px;
 }
 
+.author {
+    float: right;
+}
+
 #particles {
   position: absolute;
   top: 0;
